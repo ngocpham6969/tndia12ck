@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đề Thi Cuối Kì I - Địa Lí 12</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #4a6fa5;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .instructions {
+            background-color: #e8f4fc;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-left: 4px solid #4a6fa5;
+        }
+        
+        .instructions h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .question-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            background-color: #4a6fa5;
+            color: white;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .question {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #4a6fa5;
+        }
+        
+        .question-number {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .question-text {
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .option:hover {
+            background-color: #f0f7ff;
+            border-color: #a0c1e8;
+        }
+        
+        .option.selected {
+            background-color: #e1f0ff;
+            border-color: #4a6fa5;
+        }
+        
+        .option input {
+            margin-right: 12px;
+            margin-top: 3px;
+        }
+        
+        .option-label {
+            font-weight: bold;
+            margin-right: 8px;
+            color: #2c3e50;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        
+        button {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        #submit-btn {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        #submit-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        #reset-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        #reset-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .results {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            display: none;
+        }
+        
+        .results.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .score-display {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .score {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2ecc71;
+            margin: 10px 0;
+        }
+        
+        .score-text {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+        }
+        
+        .answers-summary {
+            margin-top: 20px;
+        }
+        
+        .answer-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+        }
+        
+        .answer-item.correct {
+            background-color: #d5f4e6;
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .answer-item.incorrect {
+            background-color: #fdeaea;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .answer-status {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .correct-answer {
+            color: #27ae60;
+            font-weight: 600;
+        }
+        
+        .user-answer {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>ĐỀ THI THAM KHẢO CUỐI KÌ I - ĐỊA LÍ 12</h1>
+        <p class="subtitle">PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN</p>
+    </header>
+    
+    <div class="instructions">
+        <h3>Hướng dẫn làm bài:</h3>
+        <p>1. Đọc kỹ từng câu hỏi và chọn một đáp án đúng nhất.</p>
+        <p>2. Bài thi gồm 40 câu hỏi trắc nghiệm thuộc phần Địa lí Nông nghiệp và Địa lí Công nghiệp.</p>
+        <p>3. Nhấn nút "Nộp bài" để xem kết quả và điểm số của bạn.</p>
+        <p>4. Nhấn nút "Làm lại" để thi lại từ đầu.</p>
+    </div>
+    
+    <div class="question-section">
+        <div class="section-title">ĐỊA LÍ NÔNG NGHIỆP (Câu 1 - 20)</div>
+        
+        <!-- Câu hỏi 1 đến 20 sẽ được thêm bằng JavaScript -->
+        <div id="questions-container"></div>
+    </div>
+    
+    <div class="controls">
+        <button id="submit-btn">Nộp bài</button>
+        <button id="reset-btn">Làm lại</button>
+    </div>
+    
+    <div class="results" id="results-container">
+        <div class="score-display">
+            <h2>Kết quả bài thi của bạn</h2>
+            <div class="score" id="score">0/40</div>
+            <div class="score-text" id="score-text"></div>
+        </div>
+        
+        <div class="answers-summary" id="answers-summary">
+            <!-- Tóm tắt kết quả sẽ được hiển thị ở đây -->
+        </div>
+    </div>
+    
+    <footer>
+        <p>Đề thi tham khảo môn Địa lí lớp 12 - Học kì I</p>
+        <p>Chúc các bạn làm bài tốt!</p>
+    </footer>
+
+    <script>
+        // Đáp án đúng cho 40 câu hỏi
+        const correctAnswers = [
+            'A', 'B', 'D', 'C', 'A', // 1-5
+            'A', 'A', 'B', 'B', 'A', // 6-10
+            'B', 'C', 'C', 'C', 'B', // 11-15
+            'B', 'B', 'C', 'C', 'B', // 16-20
+            'B', 'B', 'A', 'D', 'B', // 21-25
+            'A', 'D', 'C', 'A', 'B', // 26-30
+            'A', 'C', 'D', 'B', 'C', // 31-35
+            'C', 'A', 'C', 'D', 'D'  // 36-40
+        ];
+        
+        // Dữ liệu câu hỏi
+        const questions = [
+            // Câu 1-20: Địa lí Nông nghiệp
+            {
+                text: "Nhận định nào sau đây đúng với vai trò của thành phần kinh tế Nhà nước trong nền kinh tế ở nước ta hiện nay?",
+                options: [
+                    "A. Định hướng, điều tiết và khắc phục điểm yếu của cơ chế thị trường.",
+                    "B. Huy động nguồn vốn đầu tư, công nghệ và mở rộng thị trường xuất khẩu.",
+                    "C. Khuyến khích, phát triển các tiềm lực của cá nhân và tăng sức cạnh tranh.",
+                    "D. Tạo ra sự liên kết, phối hợp và nâng cao năng suất sản xuất cho các cá nhân."
+                ]
+            },
+            {
+                text: "Một trong những mục đích của chuyển dịch cơ cấu kinh tế theo lãnh thổ ở nước ta là",
+                options: [
+                    "A. đẩy nhanh quá trình công nghiệp hoá, hiện đại hoá.",
+                    "B. nhằm tạo ra các không gian phát triển mới.",
+                    "C. phát huy tiềm lực, sức mạnh của các thành phần kinh tế.",
+                    "D. tạo ra sự liên kết, phối hợp của các thành phần kinh tế."
+                ]
+            },
+            {
+                text: "Cơ cấu nông nghiệp của nước ta hiện nay đang chuyển dịch theo xu hướng nào sau đây?",
+                options: [
+                    "A. Giảm tỉ trọng ngành chăn nuôi, tăng tỉ trọng ngành trồng trọt.",
+                    "B. Chú trọng phát triển các loại cây trồng, vật nuôi truyền thống.",
+                    "C. Giảm tỉ trọng giá trị sản xuất của cây công nghiệp, cây ăn quả nhiệt đới.",
+                    "D. Chú trọng phát triển các cây trồng mới có triển vọng như: cây dược liệu, nấm,…"
+                ]
+            },
+            {
+                text: "Xu hướng phát triển ngành nông nghiệp của nước ta hiện nay là",
+                options: [
+                    "A. tăng tỉ trọng ngành trồng trọt trong cơ cấu sản xuất.",
+                    "B. tăng tỉ trọng ngành trồng cây công nghiệp hàng năm.",
+                    "C. phát triển nông nghiệp xanh gắn với xây dựng nông thôn mới.",
+                    "D. giảm các sản phẩm của ngành chăn nuôi không qua giết thịt."
+                ]
+            },
+            {
+                text: "Vùng có năng suất lúa cao nhất nước ta hiện nay là",
+                options: [
+                    "A. Đồng bằng sông Hồng.",
+                    "B. Bắc Trung Bộ.",
+                    "C. Đồng bằng sông Cửu Long.",
+                    "D. Đông Nam Bộ."
+                ]
+            },
+            {
+                text: "Vùng trồng cây chè lớn nhất ở nước ta hiện nay là:",
+                options: [
+                    "A. Trung du và miền núi Bắc Bộ.",
+                    "B. Đồng bằng sông Cửu Long.",
+                    "C. Đồng bằng sông Hồng.",
+                    "D. Bắc Trung Bộ."
+                ]
+            },
+            {
+                text: "Vùng chuyên canh cây cà phê lớn nhất của nước ta hiện nay ở vùng nào sau đây?",
+                options: [
+                    "A. Đông Nam Bộ.",
+                    "B. Nam Trung Bộ.",
+                    "C. Bắc Trung Bộ.",
+                    "D. Trung du và miền núi Bắc Bộ."
+                ]
+            },
+            {
+                text: "Vùng nào có số lượng đàn trâu lớn nhất nước ta?",
+                options: [
+                    "A. Bắc Trung Bộ.",
+                    "B. Trung du và miền núi Bắc Bộ.",
+                    "C. Đồng bằng sông Hồng.",
+                    "D. Duyên hải Nam Trung Bộ."
+                ]
+            },
+            {
+                text: "Một trong những đặc điểm phát triển của ngành trồng cây công nghiệp, cây ăn quả nước ta hiện nay là",
+                options: [
+                    "A. trồng chủ yếu các loại cây có nguồn gốc cận nhiệt đới.",
+                    "B. diện tích cây công nghiệp lâu năm luôn chiếm tỉ trọng cao.",
+                    "C. diện tích phân bố tương đối đồng đều giữa các vùng.",
+                    "D. chưa hình thành được các vùng trồng cây ăn quả tập trung."
+                ]
+            },
+            {
+                text: "Một trong những đặc điểm phát triển của ngành chăn nuôi ở nước ta hiện nay là",
+                options: [
+                    "A. chú trọng hình thức chăn nuôi trang trại.",
+                    "B. đàn trâu có xu hướng tăng liên tục qua các năm.",
+                    "C. chăn nuôi bò sữa chỉ phát triển ở ven các thành phố lớn.",
+                    "D. luôn chiếm tỉ trọng trong trị giá sản xuất cao hơn ngành trồng trọt."
+                ]
+            },
+            {
+                text: "Chăn nuôi của nước ta hiện nay",
+                options: [
+                    "A. chỉ phát triển ở khu vực đồng bằng.",
+                    "B. tạo ra được các sản phẩm hàng hóa.",
+                    "C. đã đem lại hiệu quả sản xuất rất cao.",
+                    "D. hoàn toàn dùng thức ăn từ tự nhiên."
+                ]
+            },
+            {
+                text: "Chăn nuôi lợn tập trung nhiều ở các đồng bằng lớn của nước ta chủ yếu là do nguyên nhân nào sau đây?",
+                options: [
+                    "A. thị trường tiêu thụ lớn, lao động có kinh nghiệm.",
+                    "B. dịch vụ thú y đảm bảo, nguồn thức ăn phong phú.",
+                    "C. nguồn thức ăn phong phú, thị trường tiêu thụ lớn.",
+                    "D. lao động có kinh nghiệm, dịch vụ thú y đảm bảo."
+                ]
+            },
+            {
+                text: "Khó khăn lớn nhất của nước ta về sản xuất cây công nghiệp lâu năm là",
+                options: [
+                    "A. thời tiết diễn biến thất thường, nhiều thiên tai.",
+                    "B. trình độ canh tác của người dân còn hạn chế.",
+                    "C. mạng lưới cơ sở chế biến còn nhỏ lẻ.",
+                    "D. thị trường thế giới có nhiều biến động."
+                ]
+            },
+            {
+                text: "Nhận định nào sau đây đúng với tình hình phát triển ngành lâm nghiệp ở nước ta hiện nay?",
+                options: [
+                    "A. Sản lượng gỗ khai thác rừng tự nhiên tăng nhanh.",
+                    "B. Rừng trồng chủ yếu là rừng phòng hộ đầu nguồn.",
+                    "C. Các hệ sinh thái rừng bền vững được chú trọng.",
+                    "D. Diện tích rừng trồng đang có xu hướng giảm."
+                ]
+            },
+            {
+                text: "Loại rừng có diện tích lớn nhất nước ta hiện nay là:",
+                options: [
+                    "A. Rừng phòng hộ.",
+                    "B. Rừng sản xuất.",
+                    "C. Rừng đặc dụng.",
+                    "D. Rừng trồng."
+                ]
+            },
+            {
+                text: "Cơ cấu sản lượng và cơ cấu giá trị sản xuất thủy sản trong những năm qua có xu hướng",
+                options: [
+                    "A. tăng tỉ trọng khai thác, giảm tỉ trọng nuôi trồng.",
+                    "B. giảm tỉ trọng khai thác, tăng tỉ trọng nuôi trồng.",
+                    "C. tỉ trọng khai thác và nuôi trồng không tăng.",
+                    "D. tỉ trọng thay đổi tăng giảm không đáng kể."
+                ]
+            },
+            {
+                text: "Nguyên nhân chủ yếu nào sau đây làm cho nghề nuôi tôm ở nước ta phát triển mạnh trong những năm gần đây?",
+                options: [
+                    "A. Điều kiện nuôi thuận lợi, kĩ thuật nuôi được cải tiến hơn.",
+                    "B. Mở rộng thị trường ngoài nước và nhu cầu thị trường lớn.",
+                    "C. Chính sách phát triển nuôi trồng thủy sản của Nhà nước ta.",
+                    "D. Giá trị thương phẩm nâng cao nhờ có công nghiệp chế biến."
+                ]
+            },
+            {
+                text: "Phát biểu nào sau đây không đúng với tình hình sản xuất ngành thủy sản ở nước ta?",
+                options: [
+                    "A. Khai thác hải sản xa bờ đang được đẩy mạnh.",
+                    "B. Khai thác thủy sản nội địa chiếm tỉ trọng nhỏ.",
+                    "C. Sản lượng khai thác luôn cao hơn nuôi trồng.",
+                    "D. Sản lượng khai thác cá biển chiếm tỉ trọng lớn."
+                ]
+            },
+            {
+                text: "Điều kiện thuận lợi cho việc nuôi trồng thủy sản nước ngọt ở nước ta là",
+                options: [
+                    "A. nhiều vũng, vịnh nước sâu.",
+                    "B. đường bờ biển dài, nhiều hải sản.",
+                    "C. có nhiều sông, suối, ao, hồ.",
+                    "D. có nhiều đầm phá và ngư trường."
+                ]
+            },
+            {
+                text: "Yếu tố nào sau đây tác động chủ yếu đến sự đa dạng của đối tượng thủy sản nuôi trồng ở nước ta hiện nay?",
+                options: [
+                    "A. Yêu cầu nâng cao chất lượng sản phẩm.",
+                    "B. Nhu cầu khác nhau của các thị trường.",
+                    "C. Diện tích mặt nước được mở rộng thêm.",
+                    "D. Điều kiện nuôi khác nhau ở các cơ sở."
+                ]
+            },
+            // Câu 21-40: Địa lí Công nghiệp
+            {
+                text: "Công nghiệp nước ta hiện nay",
+                options: [
+                    "A. chỉ có khai thác.",
+                    "B. có nhiều ngành.",
+                    "C. tập trung ở miền núi.",
+                    "D. sản phẩm ít đa dạng."
+                ]
+            },
+            {
+                text: "Ngành công nghiệp chế biến chiếm tỉ trọng cao nhất trong cơ cấu giá trị sản xuất công nghiệp do",
+                options: [
+                    "A. có thị trường tiêu thụ rộng lớn.",
+                    "B. có cơ cấu ngành đa dạng nhất.",
+                    "C. nguyên liệu tại chỗ phong phú.",
+                    "D. mang lại hiệu quả kinh tế cao."
+                ]
+            },
+            {
+                text: "Yếu tố nào sau đây tác động chủ yếu đến việc nâng cao chất lượng sản phẩm công nghiệp nước ta?",
+                options: [
+                    "A. Đầu tư theo chiều sâu, đổi mới trang thiết bị và công nghệ.",
+                    "B. Tập trung vào phát triển nhiều ngành sản xuất khác nhau.",
+                    "C. Gắn với nhu cầu thị trường tiêu thụ trong và ngoài nước.",
+                    "D. Đào tạo và nâng cao trình độ tay nghề cho người lao động."
+                ]
+            },
+            {
+                text: "Vùng tập trung nhiều khu công nghiệp nhất nước ta là",
+                options: [
+                    "A. Nam Trung Bộ.",
+                    "B. Bắc Trung Bộ.",
+                    "C. Đồng bằng sông Cửu Long.",
+                    "D. Đông Nam Bộ."
+                ]
+            },
+            {
+                text: "Theo cách phân loại hiện hành nước ta có",
+                options: [
+                    "A. 2 nhóm với 28 ngành.",
+                    "B. 4 nhóm với 34 ngành.",
+                    "C. 4 nhóm với 30 ngành.",
+                    "D. 5 nhóm với 31 ngành."
+                ]
+            },
+            {
+                text: "Cơ cấu sản xuất công nghiệp của nước ta đang chuyển dịch theo hướng nào sau đây?",
+                options: [
+                    "A. Tăng tỉ trọng công nghiệp chế biến.",
+                    "B. Tăng tỉ trọng công nghiệp khai thác.",
+                    "C. Tăng tỉ trọng sản phẩm chất lượng thấp.",
+                    "D. Giảm tỉ trọng của các sản phẩm cao cấp."
+                ]
+            },
+            {
+                text: "Khu vực hiện chiếm tỉ trọng cao nhất trong cơ cấu giá trị sản lượng công nghiệp của nước ta là",
+                options: [
+                    "A. quốc doanh.",
+                    "B. tập thể.",
+                    "C. tư nhân và cá thể.",
+                    "D. có vốn đầu tư nước ngoài."
+                ]
+            },
+            {
+                text: "Vùng nào sau đây của nước ta có ngành công nghiệp phát triển nhất?",
+                options: [
+                    "A. Bắc Trung Bộ.",
+                    "B. Đồng bằng sông Hồng.",
+                    "C. Đông Nam Bộ.",
+                    "D. Nam Trung Bộ."
+                ]
+            },
+            {
+                text: "Nhận định nào sau đây đúng với xu hướng chuyển dịch cơ cấu công nghiệp theo ngành ở nước ta hiện nay?",
+                options: [
+                    "A. Giảm tỉ trọng nhóm ngành công nghiệp khai khoáng.",
+                    "B. Giảm nhanh tỉ trọng nhóm ngành công nghiệp chế biến, chế tạo.",
+                    "C. Hạn chế phát triển các ngành đòi hỏi lao động chất lượng cao.",
+                    "D. Tỉ trọng nhóm ngành công nghiệp khai khoáng đang có xu hướng tăng."
+                ]
+            },
+            {
+                text: "Nhận định nào sau đây đúng với xu hướng chuyển dịch cơ cấu công nghiệp theo thành phần kinh tế khu vực có vốn đầu tư nước ngoài ở nước ta hiện nay?",
+                options: [
+                    "A. Chú trọng phát triển các ngành công nghiệp có ý nghĩa đặc biệt quan trọng, đặc biệt là đối với an ninh quốc phòng.",
+                    "B. Tập trung phát triển các ngành công nghiệp đòi hỏi công nghệ cao, giá trị tăng nhanh, tạo ra nhiều mặt hàng xuất khẩu.",
+                    "C. Phát triển các ngành công nghiệp dựa vào tiềm năng và lợi thế trong nước, đặc biệt là nguồn lao động phổ thông.",
+                    "D. Chú trọng phát triển các ngành công nghiệp có ý nghĩa đặc biệt quan trọng, đặc biệt là gắn với tài nguyên của quốc gia."
+                ]
+            },
+            {
+                text: "Chuyển dịch cơ cấu công nghiệp theo lãnh thổ ở nước ta hiện nay có xu hướng nào sau đây?",
+                options: [
+                    "A. Tạo ra các tổ hợp công nghiệp quy mô lớn, hiệu quả cao ở những địa bàn trọng điểm.",
+                    "B. Hình thức tổ chức điểm công nghiệp được chú trọng hình thành và phát triển.",
+                    "C. Phù hợp với sự chuyển dịch cơ cấu công nghiệp theo thành phần kinh tế.",
+                    "D. Chú trọng vào việc đa dạng hóa các sản phẩm công nghiệp ở mỗi vùng, địa phương."
+                ]
+            },
+            {
+                text: "Ngành công nghiệp chế biến lương thực, thực phẩm ở nước ta phát triển chủ yếu dựa vào",
+                options: [
+                    "A. vị trí nằm gần các trung tâm công nghiệp.",
+                    "B. mạng lưới giao thông thuận lợi.",
+                    "C. nguồn nguyên liệu tại chỗ phong phú.",
+                    "D. cơ sở vật chất – kĩ thuật được nâng cấp."
+                ]
+            },
+            {
+                text: "Nhà máy lọc dầu được xây dựng đầu tiên ở nước ta là",
+                options: [
+                    "A. Nghi Sơn.",
+                    "B. Bình Sơn.",
+                    "C. Côn Sơn.",
+                    "D. Dung Quất."
+                ]
+            },
+            {
+                text: "Tiềm năng thủy điện của nước ta tập trung chủ yếu ở hệ thống",
+                options: [
+                    "A. sông Đồng Nai.",
+                    "B. sông Hồng.",
+                    "C. sông Mã.",
+                    "D. sông Cả."
+                ]
+            },
+            {
+                text: "Nhà máy điện nào sau đây không chạy bằng than?",
+                options: [
+                    "A. Uông Bí.",
+                    "B. Na Dương.",
+                    "C. Thu Đức.",
+                    "D. Ninh Bình."
+                ]
+            },
+            {
+                text: "Nhận định nào sau đây đúng với tình hình phát triển của ngành công nghiệp sản xuất sản phẩm điện tử, máy vi tính ở nước ta hiện nay?",
+                options: [
+                    "A. Là ngành còn non trẻ, chiếm tỉ trọng còn thấp trong cơ cấu giá trị sản xuất công nghiệp.",
+                    "B. Phát triển nhờ lợi thế về nguồn lao động phổ thông dồi dào, có nhiều kinh nghiệm trong sản xuất.",
+                    "C. Phân bố và phát triển mạnh ở những vùng thu hút được nhiều dự án đầu tư trực tiếp của nước ngoài.",
+                    "D. Sản phẩm chủ yếu phục vụ nhu cầu tiêu dùng và phát triển các ngành kinh tế ở trong nước."
+                ]
+            },
+            {
+                text: "Sản lượng điện của nước ta ngày càng tăng chủ yếu là do nguyên nhân nào sau đây?",
+                options: [
+                    "A. Nhiều tiềm năng để phát triển, vốn đầu tư lớn, nhu cầu ngành kinh tế.",
+                    "B. Sự phát triển kinh tế, mức sống được nâng cao, có tiềm năng phát triển.",
+                    "C. Được sử dụng rộng rãi trong sinh hoạt, vốn đầu tư ngành điện lực lớn.",
+                    "D. Nguồn vốn lớn, chất lượng cuộc sống được nâng cao, nhiều sông, suối."
+                ]
+            },
+            {
+                text: "Sản phẩm công nghiệp dầu thô của nước ta tăng trong những năm gần đây chủ yếu là do",
+                options: [
+                    "A. khai thác thêm các mỏ dầu mới, hợp tác quốc tế, lao động ở trong nước đông.",
+                    "B. nhu cầu tiêu dùng trong nước lớn, nguồn vốn đầu tư và lao động có trình độ.",
+                    "C. khai thác nhiều mỏ dầu, tăng cường hợp tác với nước ngoài, đầu tư công nghệ.",
+                    "D. đầu tư công nghệ tiên tiến, lực lượng lao động có trình độ kĩ thuật cao, vốn lớn."
+                ]
+            },
+            {
+                text: "Ngành công nghiệp chế biến lương thực, thực phẩm mang lại hiệu quả kinh tế cao chủ yếu là do",
+                options: [
+                    "A. thúc đẩy hình thành vùng chuyên canh cây công nghiệp và chăn nuôi.",
+                    "B. góp phần giải quyết việc làm và thúc đẩy công nghiệp hóa nông thôn.",
+                    "C. không đòi hỏi vốn lớn, cung cấp nhiều mặt hàng xuất khẩu quan trọng.",
+                    "D. nguyên liệu phong phú, đa dạng, thị trường tiêu thụ sản phẩm rộng lớn."
+                ]
+            },
+            {
+                text: "Trong quá trình khai thác, vận chuyển và chế biến dầu khí ở nước ta cần đặc biệt chú ý giải quyết vấn đề nào sau đây?",
+                options: [
+                    "A. Thu hồi khí đồng hành.",
+                    "B. Liên doanh với nước ngoài.",
+                    "C. Tác động của thiên tai.",
+                    "D. Các sự cố về môi trường."
+                ]
+            }
+        ];
+        
+        // Biến lưu câu trả lời của người dùng
+        let userAnswers = new Array(questions.length).fill(null);
+        
+        // Tạo câu hỏi trên giao diện
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            
+            questions.forEach((question, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.className = 'question';
+                
+                let optionsHTML = '';
+                question.options.forEach((option, optionIndex) => {
+                    const optionLetter = String.fromCharCode(65 + optionIndex); // A, B, C, D
+                    optionsHTML += `
+                        <div class="option ${userAnswers[index] === optionLetter ? 'selected' : ''}" data-question="${index}" data-option="${optionLetter}">
+                            <input type="radio" name="question-${index}" id="q${index}-${optionLetter}" value="${optionLetter}" ${userAnswers[index] === optionLetter ? 'checked' : ''}>
+                            <label for="q${index}-${optionLetter}">
+                                <span class="option-label">${optionLetter}.</span>
+                                ${option.substring(3)}
+                            </label>
+                        </div>
+                    `;
+                });
+                
+                questionElement.innerHTML = `
+                    <div class="question-number">Câu ${index + 1}:</div>
+                    <div class="question-text">${question.text}</div>
+                    <div class="options">${optionsHTML}</div>
+                `;
+                
+                container.appendChild(questionElement);
+            });
+            
+            // Thêm sự kiện cho các lựa chọn
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionIndex = parseInt(this.getAttribute('data-question'));
+                    const selectedOption = this.getAttribute('data-option');
+                    
+                    // Bỏ chọn tất cả các option trong câu hỏi này
+                    document.querySelectorAll(`.option[data-question="${questionIndex}"]`).forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Chọn option này
+                    this.classList.add('selected');
+                    const radioInput = this.querySelector('input');
+                    radioInput.checked = true;
+                    
+                    // Lưu câu trả lời
+                    userAnswers[questionIndex] = selectedOption;
+                });
+            });
+        }
+        
+        // Tính điểm và hiển thị kết quả
+        function calculateScore() {
+            let score = 0;
+            let resultsHTML = '';
+            
+            for (let i = 0; i < questions.length; i++) {
+                const userAnswer = userAnswers[i];
+                const correctAnswer = correctAnswers[i];
+                const isCorrect = userAnswer === correctAnswer;
+                
+                if (isCorrect) {
+                    score++;
+                }
+                
+                // Tạo HTML cho từng câu trả lời
+                resultsHTML += `
+                    <div class="answer-item ${isCorrect ? 'correct' : 'incorrect'}">
+                        <div class="answer-status">
+                            Câu ${i + 1}: ${isCorrect ? 'ĐÚNG' : 'SAI'}
+                        </div>
+                        <div>Đáp án của bạn: <span class="user-answer">${userAnswer || 'Chưa chọn'}</span></div>
+                        <div>Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></div>
+                    </div>
+                `;
+            }
+            
+            // Hiển thị điểm
+            const scoreElement = document.getElementById('score');
+            const scoreTextElement = document.getElementById('score-text');
+            const answersSummaryElement = document.getElementById('answers-summary');
+            const resultsContainer = document.getElementById('results-container');
+            
+            scoreElement.textContent = `${score}/${questions.length}`;
+            scoreTextElement.textContent = `Bạn đã trả lời đúng ${score} trên tổng số ${questions.length} câu hỏi.`;
+            answersSummaryElement.innerHTML = resultsHTML;
+            resultsContainer.classList.add('show');
+            
+            // Cuộn xuống phần kết quả
+            resultsContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Reset bài thi
+        function resetQuiz() {
+            userAnswers = new Array(questions.length).fill(null);
+            renderQuestions();
+            
+            const resultsContainer = document.getElementById('results-container');
+            resultsContainer.classList.remove('show');
+            
+            // Cuộn lên đầu trang
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // Sự kiện khi nhấn nút Nộp bài
+        document.getElementById('submit-btn').addEventListener('click', function() {
+            // Kiểm tra xem đã trả lời hết tất cả câu hỏi chưa
+            const unansweredCount = userAnswers.filter(answer => answer === null).length;
+            
+            if (unansweredCount > 0) {
+                const confirmSubmit = confirm(`Bạn còn ${unansweredCount} câu chưa trả lời. Bạn có chắc chắn muốn nộp bài không?`);
+                if (confirmSubmit) {
+                    calculateScore();
+                }
+            } else {
+                calculateScore();
+            }
+        });
+        
+        // Sự kiện khi nhấn nút Làm lại
+        document.getElementById('reset-btn').addEventListener('click', resetQuiz);
+        
+        // Khởi tạo bài thi khi trang được tải
+        document.addEventListener('DOMContentLoaded', function() {
+            renderQuestions();
+        });
+    </script>
+</body>
+</html>
